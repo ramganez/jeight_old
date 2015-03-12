@@ -3,18 +3,22 @@ from django.views.generic.base import TemplateView
 from django.conf.urls import patterns, include, url
 from roomexpenses.views import (AddCurrentMonthExpenses, )
 from roomexpenses.views import (AddCurrentMonthExpenses, AddRoomMember,
-									AddOtherMember)
+								AddOtherMember, ShowSharedExpenses)
 
 urlpatterns = patterns('',
-    # url(r'^$', views.add_current_month_expenses, name='current_month_expenses'),
-    url(r'^$', TemplateView.as_view(template_name="roomexpenses/home.html"),
-        name='home'),
-    url(r'^add-expense/$', AddCurrentMonthExpenses.as_view(),
-        name='add-month-expenses'),
-	url(r'^add-room-member/$', AddRoomMember.as_view(),
-		name='add-room-member'),
-	url(r'^add-other-member/$', AddOtherMember.as_view(),
-		name='add-other-member'),
+						url(r'^$', TemplateView.as_view(
+							template_name="roomexpenses/home.html"), name='home'),
 
+						url(r'^add-expense/$',
+							AddCurrentMonthExpenses.as_view(), name='add-month-expenses'),
 
-)
+						url(r'^add-room-member/$', AddRoomMember.as_view(),
+							name='add-room-member'),
+
+						url(r'^add-other-member/$', AddOtherMember.as_view(
+
+						), name='add-other-member'),
+
+						url(r'^current-month-share/$',
+							ShowSharedExpenses.as_view(), name='current-month-share'),
+						)

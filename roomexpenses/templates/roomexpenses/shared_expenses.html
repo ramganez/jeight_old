@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<table border=1 frame=hsides rules=columns>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+    </tr>
+    {% for object in share_expenses %}
+    <tr>
+        <td>{{ object.room_member }}</td>
+        <td>{{ object.amount_to_be_given }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
