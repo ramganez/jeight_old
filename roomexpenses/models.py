@@ -18,9 +18,9 @@ class RoomMember(models.Model):
 
 class OtherMember(models.Model):
     name = models.CharField(max_length=50,)
-    mobile = models.CharField(max_length=12,)
-    mail_id = models.EmailField(max_length=75,)
-    check_in = models.DateField(default=datetime.now(), blank=True)
+    mobile = models.CharField(max_length=12, null=True, blank=True)
+    mail_id = models.EmailField(max_length=75, null=True, blank=True)
+    check_in = models.DateField(default=datetime.now())
     in_room = models.BooleanField(default=True)
 
     def __unicode__(self):
@@ -29,15 +29,20 @@ class OtherMember(models.Model):
 class MonthlyExpense(models.Model):
     month = models.CharField(max_length=10,
                              default=datetime.now().strftime('%B'))
-    rent = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    cable = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    electricity = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    maintenance = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    water = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    last_month_exp = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    next_month_exp = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    grand_total = models.DecimalField(max_digits=7, decimal_places=2, null=True)
-    created_on = models.DateTimeField(default=datetime.now(), blank=True)
+    rent = models.DecimalField(max_digits=7, decimal_places=2, default=7500)
+    cable = models.DecimalField(max_digits=7, decimal_places=2, default=100)
+    electricity = models.DecimalField(max_digits=7, decimal_places=2,
+                                      default=0)
+    maintenance = models.DecimalField(max_digits=7, decimal_places=2,
+                                      default=350)
+    water = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+    last_month_exp = models.DecimalField(max_digits=7, decimal_places=2,
+                                         default=0)
+    next_month_exp = models.DecimalField(max_digits=7, decimal_places=2,
+                                         default=0)
+    grand_total = models.DecimalField(max_digits=7, decimal_places=2,
+                                      null=True)
+    created_on = models.DateTimeField(default=datetime.now())
 
     def __unicode__(self):
         return self.month
@@ -49,7 +54,12 @@ class ShareExpenses(models.Model):
 
     room_member = models.ForeignKey('RoomMember', null=True)
     other_member = models.ForeignKey('OtherMember', null=True)
-    amount_to_be_given = models.DecimalField(max_digits=6, decimal_places=2)
+    room_member_share = models.DecimalField(max_digits=6, decimal_places=2,
+                                            null=True)
+    other_member_share = models.DecimalField(max_digits=6, decimal_places=2,
+                                             null=True)
     created_on = models.DateTimeField(default=datetime.now(), blank=True)
+
+
 
 

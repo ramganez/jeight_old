@@ -13,7 +13,8 @@ from roomexpenses.models import (ShareExpenses, RoomMember, OtherMember)
 
 # Create your views here.
 
-# FBV
+
+# FBV for test
 def add_current_month_expenses(request):
     if request.method == "POST":
         form = MonthlyExpenseForm(request.POST)
@@ -26,6 +27,7 @@ def add_current_month_expenses(request):
 
     return render(request, 'roomexpenses/expense.html', {'form': form})
 
+
 # CBV
 class AddCurrentMonthExpenses(CreateView):
     form_class = MonthlyExpenseForm
@@ -35,21 +37,44 @@ class AddCurrentMonthExpenses(CreateView):
         return reverse('current-month-share')
 
     def form_valid(self, form):
-        ipdb.set_trace()
+        #ipdb.set_trace()
+
+        # TODO later write single function
         expenses_data = form.cleaned_data
+        rental_expense = 0
+        room_expense = 0
         grand_total = 0
+
+        for_rental_expense = ['rent', 'maintenance']
+        for_room_expense = ['cable', 'electricity', 'maintenance', 'water',
+                            'last_month_exp', 'next_month_exp']
+
         for key, value in expenses_data.iteritems():
             if not key == 'month':
                 grand_total += float(value)
+                if key in for_rental_expense:
+                    rental_expense += float(value)
+                if key in for_room_expense:
+                    room_expense += float(value)
+
         room_member_count = RoomMember.objects.filter(in_room=True).count()
-        # TODO later
-        # other_member_count = OtherMember.objects.filter(in_room=True).count()
-        room_member_expense = grand_total/float(room_member_count)
+        other_member_count = OtherMember.objects.filter(in_room=True).count()
+
+        rental_expense_share = rental_expense/float(room_member_count)
+        room_expense_share = room_expense/(float(
+            room_member_count)+float(other_member_count))
 
         for obj in RoomMember.objects.all():
             ShareExpenses.objects.create(month=expenses_data['month'],
                                          room_member=obj,
-                                         amount_to_be_given=room_member_expense)
+                                         room_member_share=(
+                                             rental_expense_share+room_expense_share))
+
+        if OtherMember.objects.all():
+            for obj in OtherMember.objects.all():
+                    ShareExpenses.objects.create(month=expenses_data['month'],
+                                                 other_member=obj,
+                                                 other_member_share=room_expense_share)
 
         return super(AddCurrentMonthExpenses, self).form_valid(form)
 
@@ -75,6 +100,4 @@ class ShowSharedExpenses(TemplateView):
             filter(month=datetime.now().strftime('%B'))
 
         return context
-
-
 
