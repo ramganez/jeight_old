@@ -3,8 +3,7 @@ from datetime import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView
-from django.views.generic.base import TemplateView
+from django.views.generic import (CreateView, TemplateView, ListView)
 from django.core.urlresolvers import reverse
 
 from roomexpenses.forms import (MonthlyExpenseForm, RoomMemberForm,
@@ -100,4 +99,23 @@ class ShowSharedExpenses(TemplateView):
             filter(month=datetime.now().strftime('%B'))
 
         return context
+
+
+class ListRoomMember(ListView):
+    # model = RoomMember
+    template_name = 'roomexpenses/list_members.html'
+
+    def get_queryset(self):
+        """Returns Members they are available room"""
+        return RoomMember.objects.filter(in_room=True)
+
+
+class ListOtherMember(ListView):
+    model = OtherMember
+    template_name = 'roomexpenses/list_members.html'
+
+    def get_queryset(self):
+        """Returns Members they are available room"""
+        return OtherMember.objects.filter(in_room=True)
+
 

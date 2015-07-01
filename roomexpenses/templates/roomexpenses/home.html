@@ -1,9 +1,11 @@
 {% extends "roomexpenses/base.html" %}
 {% block body_block %}
 <ul>
-    <li><a href="{% url 'add-month-expenses' %}">Add Current Month Expense Detail</a></li>
-    <li><a href="{% url 'add-room-member' %}">Add Room Member</a></li>
-    <li><a href="{% url 'add-other-member' %}">Add Other Member</a></li>
+    <a href="{% url 'list-room-members' %}">Show Room Members</a> ||
+    <a href="{% url 'list-other-members' %}">Show Other Members</a> ||
+    <a href="{% url 'add-month-expenses' %}">Add Current Month Expense Detail</a> ||
+    <a href="{% url 'add-room-member' %}">Add Room Member</a> ||
+    <a href="{% url 'add-other-member' %}">Add Other Member</a>
 </ul>
 {% endblock %}
 
