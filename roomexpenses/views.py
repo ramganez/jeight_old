@@ -36,7 +36,7 @@ class AddCurrentMonthExpenses(CreateView):
         return reverse('current-month-share')
 
     def form_valid(self, form):
-        #ipdb.set_trace()
+        # ipdb.set_trace()
 
         # TODO later write single function
         expenses_data = form.cleaned_data
@@ -45,7 +45,7 @@ class AddCurrentMonthExpenses(CreateView):
         grand_total = 0
 
         for_rental_expense = ['rent', 'maintenance']
-        for_room_expense = ['cable', 'electricity', 'maintenance', 'water',
+        for_room_expense = ['cable', 'electricity', 'water',
                             'last_month_exp', 'next_month_exp']
 
         for key, value in expenses_data.iteritems():
@@ -62,6 +62,10 @@ class AddCurrentMonthExpenses(CreateView):
         rental_expense_share = rental_expense/float(room_member_count)
         room_expense_share = room_expense/(float(
             room_member_count)+float(other_member_count))
+
+        # updating multiple objects at once
+        # if last created share expense was duplicate
+        ShareExpenses.objects.filter(month=expenses_data['month']).update(is_duplicate=True)
 
         for obj in RoomMember.objects.all():
             ShareExpenses.objects.create(month=expenses_data['month'],
@@ -96,7 +100,7 @@ class ShowSharedExpenses(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ShowSharedExpenses, self).get_context_data(**kwargs)
         context["share_expenses"] = ShareExpenses.objects.\
-            filter(month=datetime.now().strftime('%B'))
+            filter(month=datetime.now().strftime('%B'), is_duplicate=False)
 
         return context
 

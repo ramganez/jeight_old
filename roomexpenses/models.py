@@ -58,8 +58,11 @@ class ShareExpenses(models.Model):
                                             null=True)
     other_member_share = models.DecimalField(max_digits=6, decimal_places=2,
                                              null=True)
+    is_duplicate = models.BooleanField(default=False)
     created_on = models.DateTimeField(default=datetime.now(), blank=True)
 
+    def __unicode__(self):
+        return self.created_on.strftime('%H-%M-%S')
 
 
 
