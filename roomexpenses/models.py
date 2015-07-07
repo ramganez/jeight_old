@@ -20,7 +20,7 @@ class OtherMember(models.Model):
     name = models.CharField(max_length=50,)
     mobile = models.CharField(max_length=12, null=True, blank=True)
     mail_id = models.EmailField(max_length=75, null=True, blank=True)
-    check_in = models.DateField(default=datetime.now())
+    check_in = models.DateField(default=datetime.now)
     in_room = models.BooleanField(default=True)
 
     def __unicode__(self):
@@ -30,7 +30,7 @@ class MonthlyExpense(models.Model):
     month = models.CharField(max_length=10,
                              default=datetime.now().strftime('%B'))
     rent = models.DecimalField(max_digits=7, decimal_places=2, default=7500)
-    cable = models.DecimalField(max_digits=7, decimal_places=2, default=100)
+    cable = models.DecimalField(max_digits=7, decimal_places=2, default=100) 
     electricity = models.DecimalField(max_digits=7, decimal_places=2,
                                       default=0)
     maintenance = models.DecimalField(max_digits=7, decimal_places=2,
@@ -42,7 +42,8 @@ class MonthlyExpense(models.Model):
                                          default=0)
     grand_total = models.DecimalField(max_digits=7, decimal_places=2,
                                       null=True)
-    created_on = models.DateTimeField(default=datetime.now())
+    created_on = models.DateTimeField(default=datetime.now)
+
 
     def __unicode__(self):
         return self.month
@@ -59,7 +60,8 @@ class ShareExpenses(models.Model):
     other_member_share = models.DecimalField(max_digits=6, decimal_places=2,
                                              null=True)
     is_duplicate = models.BooleanField(default=False)
-    created_on = models.DateTimeField(default=datetime.now(), blank=True)
+    created_on = models.DateTimeField(default=datetime.now, blank=True)
+
 
     def __unicode__(self):
         return self.created_on.strftime('%H-%M-%S')
