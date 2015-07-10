@@ -1,17 +1,17 @@
-{% extends "roomexpenses/base.html" %}
+{% extends "base.html" %}
 
 {% load staticfiles %}
 {% block extra_head %}
-<link rel="stylesheet" type="text/css" href="{% static 'roomexpenses/home_ss.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'roomexpenses/css/home_ss.css' %}" />
 {% endblock %}
 
-{% block body_block %}
-<p>
-    <a class='red' href="{% url 'list-room-members' %}">Show Room Members</a> &nbsp;
-    <a class='red' href="{% url 'list-other-members' %}">Show Other Members</a> &nbsp;
-    <a class='red' href="{% url 'add-month-expenses' %}">Add Current Month Expense Detail</a> &nbsp;
-    <a class='red' href="{% url 'add-room-member' %}">Add Room Member</a> &nbsp;
-    <a class='red' href="{% url 'add-other-member' %}">Add Other Member</a> &nbsp;
+{% block header %}
+<p class="header-links">
+    <a  href="{% url 'list-room-members' %}">Show Room Members</a> &nbsp;
+    <a  href="{% url 'list-other-members' %}">Show Other Members</a> &nbsp;
+    <a  href="{% url 'add-month-expenses' %}">Add Current Month Expense Detail</a> &nbsp;
+    <a  href="{% url 'add-room-member' %}">Add Room Member</a> &nbsp;
+    <a  href="{% url 'add-other-member' %}">Add Other Member</a> &nbsp;
 </p>
 {% endblock %}
 
