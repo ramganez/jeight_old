@@ -61,20 +61,20 @@ class AddCurrentMonthExpenses(CreateView):
 
         rental_expense_share = rental_expense/float(room_member_count)
         room_expense_share = room_expense/(float(
-            room_member_count)+float(other_member_count))
+            room_member_count)+float(other_member_count+room_member_count))
 
         # updating multiple objects at once
         # if last created share expense was duplicate
         ShareExpenses.objects.filter(month=expenses_data['month']).update(is_duplicate=True)
 
-        for obj in RoomMember.objects.all():
+        for obj in RoomMember.objects.filter(in_room=True):
             ShareExpenses.objects.create(month=expenses_data['month'],
                                          room_member=obj,
                                          room_member_share=(
                                              rental_expense_share+room_expense_share))
 
-        if OtherMember.objects.all():
-            for obj in OtherMember.objects.all():
+        if OtherMember.objects.filter(in_room=True):
+            for obj in OtherMember.objects.filter(in_room=True):
                     ShareExpenses.objects.create(month=expenses_data['month'],
                                                  other_member=obj,
                                                  other_member_share=room_expense_share)
