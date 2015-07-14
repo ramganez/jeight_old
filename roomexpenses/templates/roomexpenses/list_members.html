@@ -2,12 +2,24 @@
 
 
 {% block content %}
-<ul>
-    {% for member in object_list %}
-        <li>{{ member.name }} </li>
+
+<table class="roommates-table">
+    <tr>
+        <th>Permanent Roommates</th>
+        <th>Temporary Roommates</th>
+    </tr>
+
+
+    {% for room_member, other_member in zip_members %}
+        <tr>
+        <td>{{ room_member|capfirst }}</td><td>{{ other_member|capfirst }}</td>
+        </tr>
     {% empty %}
-        <li>No one in Room</li>
+        <td>No one in Room</td><td>No one in Room</td>
     {% endfor %}
-</ul>
+
+</table>
+
+
 {% endblock %}
 

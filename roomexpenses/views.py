@@ -1,5 +1,6 @@
 import ipdb
 from datetime import datetime
+import itertools
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -123,3 +124,21 @@ class ListOtherMember(ListView):
         return OtherMember.objects.filter(in_room=True)
 
 
+class ListAllMember(ListView):
+    template_name = 'roomexpenses/list_members.html'
+
+    def get_queryset(self):
+        """Returns Members they are available room"""
+        return RoomMember.objects.filter(in_room=True)
+
+    def get_context_data(self, **kwargs):
+        """ Return Room member list
+            and Other member list
+        """
+        context = super(ListView, self).get_context_data(**kwargs)
+        zip_members = itertools.izip_longest(RoomMember.objects.filter(in_room=True),
+                                             OtherMember.objects.filter(in_room=True), fillvalue='')
+
+        context['zip_members'] = zip_members
+
+        return context
