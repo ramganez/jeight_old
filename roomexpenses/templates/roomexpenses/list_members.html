@@ -12,7 +12,8 @@
 
     {% for room_member, other_member in zip_members %}
         <tr>
-        <td>{{ room_member|capfirst }}</td><td>{{ other_member|capfirst }}</td>
+        <td><a href="{% url 'update-member' member_pk=room_member.id %}" >{{ room_member|capfirst }}</a></td>
+            <td>{{ other_member|capfirst }}</td>
         </tr>
     {% empty %}
         <td>No one in Room</td><td>No one in Room</td>

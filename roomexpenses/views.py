@@ -3,8 +3,9 @@ from datetime import datetime
 import itertools
 
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic import (CreateView, TemplateView, ListView)
+from django.http import HttpResponse, Http404
+from django.views.generic import (CreateView, TemplateView, ListView,
+                                  UpdateView)
 from django.core.urlresolvers import reverse
 
 from roomexpenses.forms import (MonthlyExpenseForm, RoomMemberForm,
@@ -142,3 +143,10 @@ class ListAllMember(ListView):
         context['zip_members'] = zip_members
 
         return context
+
+
+class UpdateMember(UpdateView):
+    template_name = 'roomexpenses/update_members.html'
+    model = RoomMember
+    pk_url_kwarg = 'member_pk'
+

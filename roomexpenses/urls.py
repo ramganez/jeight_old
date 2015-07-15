@@ -3,7 +3,10 @@ from django.views.generic.base import TemplateView
 from django.conf.urls import patterns, include, url
 from roomexpenses.views import (AddCurrentMonthExpenses, )
 from roomexpenses.views import (AddCurrentMonthExpenses, AddRoomMember,
-                                AddOtherMember, ShowSharedExpenses, ListAllMember,)
+                                AddOtherMember, ShowSharedExpenses, ListAllMember,
+                                UpdateMember)
+
+from roomexpenses import views
 
 urlpatterns = patterns('',
 						url(r'^$', TemplateView.as_view(
@@ -22,6 +25,9 @@ urlpatterns = patterns('',
 						url(r'^current-month-share/$',
 							ShowSharedExpenses.as_view(), name='current-month-share'),
 
-                        url(r'list-members/$',
+                        url(r'^list-members/$',
                             ListAllMember.as_view(), name='list-members'),
+
+                        url(r'^update-member/(?P<member_pk>\d+)/$', UpdateMember.as_view(), name='update-member')
+
                         )
