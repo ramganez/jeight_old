@@ -28,6 +28,7 @@ urlpatterns = patterns('',
                         url(r'^list-members/$',
                             ListAllMember.as_view(), name='list-members'),
 
-                        url(r'^update-member/(?P<member_pk>\d+)/$', UpdateMember.as_view(), name='update-member')
+                        url(r'^update-member/(?P<member_type>\w+)/(?P<member_pk>\d+)/$', UpdateMember.as_view(),
+                            name='update-member')
 
                         )

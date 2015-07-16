@@ -1,5 +1,7 @@
-from django.db import models
 from datetime import datetime
+
+from django.db import models
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 
@@ -11,6 +13,14 @@ class RoomMember(models.Model):
     advance_given = models.DecimalField(max_digits=6, decimal_places=2)
     other_exp_paid = models.DecimalField(max_digits=6, decimal_places=2)
     in_room = models.BooleanField(default=True)
+
+    def clean(self):
+        """extra whitespace will be stripped"""
+        if self.name:
+            self.name = self.name.strip()
+
+    def get_absolute_url(self):
+        return reverse('list-members')
 
     def __unicode__(self):
         return self.name

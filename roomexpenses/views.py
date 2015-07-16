@@ -147,6 +147,20 @@ class ListAllMember(ListView):
 
 class UpdateMember(UpdateView):
     template_name = 'roomexpenses/update_members.html'
-    model = RoomMember
     pk_url_kwarg = 'member_pk'
+    slug_url_kwarg = 'member_type'
 
+    kwarg_map = {
+        'permanent': RoomMember.objects.all(),
+        'temporary': OtherMember.objects.all()
+    }
+
+    # override this method for update the members in on CSV
+    def get_object(self, queryset=None, **kwargs):
+        # ipdb.set_trace()
+
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        queryset = self.kwarg_map.get(slug)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        obj = queryset.get(pk=pk)
+        return obj

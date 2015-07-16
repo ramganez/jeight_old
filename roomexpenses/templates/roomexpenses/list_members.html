@@ -9,11 +9,12 @@
         <th>Temporary Roommates</th>
     </tr>
 
-
     {% for room_member, other_member in zip_members %}
         <tr>
-        <td><a href="{% url 'update-member' member_pk=room_member.id %}" >{{ room_member|capfirst }}</a></td>
-            <td>{{ other_member|capfirst }}</td>
+            <td><a href="{% url 'update-member' member_type='permanent' member_pk=room_member.id %}">
+                {{ room_member.name|capfirst }}</a></td>
+            <td><a href="{% url 'update-member' member_type='temporary' member_pk=room_member.id %}">
+                {{ other_member.name|capfirst }}</a></td>
         </tr>
     {% empty %}
         <td>No one in Room</td><td>No one in Room</td>
@@ -23,4 +24,7 @@
 
 
 {% endblock %}
+
+
+{% url 'path.to.view' arg arg2 as the_url %}
 
