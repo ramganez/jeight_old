@@ -10,7 +10,10 @@
 .header-links a {
     color: #4C4C51;
     text-decoration:none;
+}
 
+.header-links a:hover{
+    color: #6F6F7B;
 }
 
 .content{
@@ -30,6 +33,14 @@
     text-align: center;
 }
 
+.roommates-table td a{
+    color: #474751;
+    text-decoration:none;
+}
+
+.roommates-table td a:hover{
+    color: #6F6F7B;
+}
 
 .shared-expenses-table {
     width:600px;

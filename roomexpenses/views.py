@@ -87,13 +87,11 @@ class AddCurrentMonthExpenses(CreateView):
 class AddRoomMember(CreateView):
     form_class = RoomMemberForm
     template_name = 'roomexpenses/add_room_member.html'
-    success_url = '#'
 
 
 class AddOtherMember(CreateView):
     form_class = OtherMemberForm
     template_name = 'roomexpenses/add_other_member.html'
-    success_url = '#'
 
 
 class ShowSharedExpenses(TemplateView):

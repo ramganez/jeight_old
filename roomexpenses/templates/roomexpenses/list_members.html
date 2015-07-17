@@ -11,10 +11,18 @@
 
     {% for room_member, other_member in zip_members %}
         <tr>
-            <td><a href="{% url 'update-member' member_type='permanent' member_pk=room_member.id %}">
-                {{ room_member.name|capfirst }}</a></td>
-            <td><a href="{% url 'update-member' member_type='temporary' member_pk=room_member.id %}">
-                {{ other_member.name|capfirst }}</a></td>
+            {%if room_member%}
+                <td><a href="{% url 'update-member' member_type='permanent' member_pk=room_member.id %}">
+                    {{ room_member.name|capfirst }}</a></td>
+            {% else %}
+                <td> - </td>
+            {% endif %}
+            {%if other_member%}
+                <td><a href="{% url 'update-member' member_type='temporary' member_pk=other_member.id %}">
+                    {{ other_member.name|capfirst }}</a></td>
+            {% else %}
+                <td> - </td>
+            {% endif %}
         </tr>
     {% empty %}
         <td>No one in Room</td><td>No one in Room</td>

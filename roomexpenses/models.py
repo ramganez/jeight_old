@@ -36,6 +36,9 @@ class OtherMember(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('list-members')
+
 class MonthlyExpense(models.Model):
     month = models.CharField(max_length=10,
                              default=datetime.now().strftime('%B'))
