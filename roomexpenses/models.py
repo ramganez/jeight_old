@@ -5,6 +5,14 @@ from django.core.urlresolvers import reverse
 
 # Create your models here.
 
+# roommates ready to pay
+SHARE_CHOICES = (('all', 'All'),
+                 ('xxx', 'XXX'),
+                 ('rent', 'Rent+Maintenance'),
+                 ('food', 'Food Only'),
+                 ('none', 'None'),
+                 )
+
 
 class RoomMember(models.Model):
     name = models.CharField(max_length=50,)
@@ -32,6 +40,8 @@ class OtherMember(models.Model):
     mail_id = models.EmailField(max_length=75, null=True, blank=True)
     check_in = models.DateField(default=datetime.now)
     in_room = models.BooleanField(default=True)
+    ready_to_share = models.CharField(max_length=4, choices=SHARE_CHOICES, default='all')
+    x_field = models.DecimalField(max_digits=6, decimal_places=2, default=2000)
 
     def __unicode__(self):
         return self.name

@@ -9,8 +9,11 @@ from roomexpenses.views import (AddCurrentMonthExpenses, AddRoomMember,
 from roomexpenses import views
 
 urlpatterns = patterns('',
+						# url(r'^$', TemplateView.as_view(
+						# 	template_name="roomexpenses/home.html"), name='home'),
+
 						url(r'^$', TemplateView.as_view(
-							template_name="roomexpenses/home.html"), name='home'),
+							template_name="base.html"), name='home'),
 
 						url(r'^add-expense/$',
 							AddCurrentMonthExpenses.as_view(), name='add-month-expenses'),

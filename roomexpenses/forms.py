@@ -8,6 +8,7 @@ class MonthlyExpenseForm(ModelForm):
         model = MonthlyExpense
         exclude = ['grand_total', 'created_on']
 
+
 class RoomMemberForm(ModelForm):
     class Meta:
         model = RoomMember

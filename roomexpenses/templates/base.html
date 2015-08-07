@@ -6,10 +6,14 @@
     {% load staticfiles %}
     {% block extra_head %}
         <link rel="stylesheet" type="text/css" href="{% static 'roomexpenses/css/main.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'roomexpenses/css/main.css' %}" />
     {% endblock %}
 </head>
 <body >
 <div id="body">
+    <script type="text/javascript" src="{% static 'roomexpenses/js/jquery-1.11.3.min.js' %}" > </script>
+    <script type="text/javascript" src="{% static 'roomexpenses/js/test.js' %}" > </script>
+
 
     {% block body %}
 
