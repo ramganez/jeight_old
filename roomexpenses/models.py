@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 
 # roommates ready to pay
 SHARE_CHOICES = (('all', 'All'),
-                 ('xxx', 'XXX'),
+                 ('some_amount', 'I can pay'),
                  ('rent', 'Rent+Maintenance'),
                  ('food', 'Food Only'),
                  ('none', 'None'),
@@ -41,7 +41,7 @@ class OtherMember(models.Model):
     check_in = models.DateField(default=datetime.now)
     in_room = models.BooleanField(default=True)
     ready_to_share = models.CharField(max_length=4, choices=SHARE_CHOICES, default='all')
-    x_field = models.DecimalField(max_digits=6, decimal_places=2, default=2000)
+    some_amount = models.DecimalField(max_digits=6, decimal_places=2, default=2000)
 
     def __unicode__(self):
         return self.name

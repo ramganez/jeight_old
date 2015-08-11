@@ -1,10 +1,11 @@
 $(document).ready(function(){
-    alert('welcome!!')
+    //alert('welcome!!')
     $('#id_ready_to_share').change(function() {
-    alert( this.value );
+    //alert( this.value );
     var opt = $(this).val();
-    opt == 'xxx' ? $('#id_x_field').show() : $('#id_x_field').hide();
-    alert( "hello world!!" );
+
+    opt == 'some_amount' ? $('#some_amount').show() : $('#some_amount').hide();
+    //alert( "hello world!!" );
     });
     });
 

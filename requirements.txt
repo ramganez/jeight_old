@@ -1,0 +1,4 @@
+django==1.7
+django-extensions==1.5.5
+ipdb==0.8.1
+django-floppyforms==1.5.2
