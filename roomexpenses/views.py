@@ -29,6 +29,10 @@ def add_current_month_expenses(request):
     return render(request, 'roomexpenses/expense.html', {'form': form})
 
 
+def calculate_shareExpenses():
+    pass
+
+
 # CBV
 class AddCurrentMonthExpenses(CreateView):
     form_class = MonthlyExpenseForm
@@ -38,7 +42,7 @@ class AddCurrentMonthExpenses(CreateView):
         return reverse('current-month-share')
 
     def form_valid(self, form):
-        # ipdb.set_trace()
+        ipdb.set_trace()
 
         # TODO later write single function
         expenses_data = form.cleaned_data
@@ -61,25 +65,60 @@ class AddCurrentMonthExpenses(CreateView):
         room_member_count = RoomMember.objects.filter(in_room=True).count()
         other_member_count = OtherMember.objects.filter(in_room=True).count()
 
-        rental_expense_share = rental_expense/float(room_member_count)
-        room_expense_share = room_expense/(float(
-            room_member_count)+float(other_member_count+room_member_count))
-
         # updating multiple objects at once
         # if last created share expense was duplicate
         ShareExpenses.objects.filter(month=expenses_data['month']).update(is_duplicate=True)
+
+        choice_all_count = (RoomMember.objects.filter(in_room=True).count()+
+                            OtherMember.objects.filter(in_room=True, ready_to_share='all').count())
+
+        choice_rent_count = (OtherMember.objects.filter(in_room=True, ready_to_share='rent').count())
+
+        choice_food_count = (OtherMember.objects.filter(in_room=True, ready_to_share='food').count())
+
+        rental_expense_share = float(rental_expense)/choice_all_count
+        room_expense_share = float(room_expense)/(choice_all_count+
+                                                  choice_rent_count+
+                                                  choice_food_count)
+
+        #reduce from some amount
+        total_some_amount = 0
+        for other_mem in OtherMember.objects.filter(in_room=True, ready_to_share='some_amount'):
+            total_some_amount += other_mem.some_amount
+        reduce_some_amount = float(total_some_amount)/choice_all_count
 
         for obj in RoomMember.objects.filter(in_room=True):
             ShareExpenses.objects.create(month=expenses_data['month'],
                                          room_member=obj,
                                          room_member_share=(
-                                             rental_expense_share+room_expense_share))
+                                             (rental_expense_share+room_expense_share)-reduce_some_amount))
 
         if OtherMember.objects.filter(in_room=True):
             for obj in OtherMember.objects.filter(in_room=True):
-                    ShareExpenses.objects.create(month=expenses_data['month'],
-                                                 other_member=obj,
-                                                 other_member_share=room_expense_share)
+                    # all Share
+                    if obj.ready_to_share == 'all':
+                        ShareExpenses.objects.create(month=expenses_data['month'],
+                                                     other_member=obj,
+                                                     other_member_share=((rental_expense_share+room_expense_share)
+                                                                         -reduce_some_amount))
+                    # rent
+                    if obj.ready_to_share == 'rent':
+                        ShareExpenses.objects.create(month=expenses_data['month'],
+                                                     other_member=obj,
+                                                     other_member_share=(rental_expense_share))
+
+                    # food
+                    if obj.ready_to_share == 'food':
+                        ShareExpenses.objects.create(month=expenses_data['month'],
+                                                     other_member=obj,
+                                                     other_member_share=(room_expense_share))
+
+                    # none
+                    if obj.ready_to_share == 'none':
+                        ShareExpenses.objects.create(month=expenses_data['month'],
+                                                     other_member=obj,
+                                                     other_member_share=0)
+
 
         return super(AddCurrentMonthExpenses, self).form_valid(form)
 

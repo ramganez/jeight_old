@@ -40,7 +40,7 @@ class OtherMember(models.Model):
     mail_id = models.EmailField(max_length=75, null=True, blank=True)
     check_in = models.DateField(default=datetime.now)
     in_room = models.BooleanField(default=True)
-    ready_to_share = models.CharField(max_length=4, choices=SHARE_CHOICES, default='all')
+    ready_to_share = models.CharField(max_length=11, choices=SHARE_CHOICES, default='all')
     some_amount = models.DecimalField(max_digits=6, decimal_places=2, default=2000)
 
     def __unicode__(self):
